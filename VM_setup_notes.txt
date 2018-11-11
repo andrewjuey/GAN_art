@@ -1,0 +1,102 @@
+1st step involves setting up GCP VM with ubuntu + GPUs 
+then need to get CUDA and CuDNN
+
+-- maybe ask someone at work about VMs too ... 
+-- as long as you don't delete, can get back in with everything still in it, right?
+-- but then does it continue to get charged ...?
+
+
+#### core documentation notes
+
+https://github.com/robbiebarrat/art-DCGAN/blob/master/INSTALL.md
+https://github.com/soumith/dcgan.torch#vector-arithmetic
+https://arxiv.org/pdf/1511.06434.pdf
+
+
+pytorch GCP VM
+https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance
+
+
+https://medium.com/@jayden.chua/quick-install-cuda-on-google-cloud-compute-6c85447f86a1
+
+https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance#before_you_begin
+
+https://forums.fast.ai/t/lesson-1-using-google-cloud-vm-step-by-step-installation-with-shell-script/7180
+
+
+#### 
+
+GCP billing ... some confusion around turning on/off properly
+https://cloud.google.com/billing/docs/how-to/reports
+
+
+-- issue was getting CUDA and CuDNN onto the virtual machine ...
+-- also getting data up there too eventually 
+-- should pull all of this in a GCS bucket i guess
+
+
+## gets cuda up and running right
+https://mc.ai/deep-learning-with-google-cloud-platform-part2-how-to-install-cuda-on-your-compute-engine/
+
+
+
+
+https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.3.1/prod/9.0_2018927/Ubuntu16_04-x64/libcudnn7-dev_7.3.1.20-1-cuda9.0_amd64
+
+
+
+tar.gz file or .deb ... ? 
+
+
+### This has to be done not in the remote computer but in local file!!!
+gcloud compute scp /Users/andrewju/Desktop/data-art-gan/libcudnn7-dev_7.3.1.20-1+cuda9.0_amd64.deb test-11-3-vm:/tmp
+
+
+### always getting this error... wtf
+(gcloud.compute.scp) Could not fetch resource:
+ - Insufficient Permission
+
+ https://stackoverflow.com/questions/49584800/error-gcloud-compute-ssh-could-not-fetch-resource-insufficient-permission
+
+
+https://stackoverflow.com/questions/29024052/receiving-a-no-such-file-or-directory-error-gcloud-compute-copy-files-onto-inst
+https://superuser.com/questions/1204664/no-such-file-or-directory-error-when-attempting-to-copy-using-scp-from-remot
+
+
+
+sudo dpkg -i libcudnn7-dev_7.3.1.20-1+cuda9.0_amd64.deb 
+
+
+
+libcudnn7-dev_7.3.1.20-1+cuda9.0_amd64.deb
+
+
+
+https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html 
+
+documentation works the best
+need to do all 3 libraries at once each time
+
+
+
+
+######## 
+ok so now that VM properly set up ... 
+how tf to actually run this? lets see 
+
+# i thought this VM already had pytorch on it ... but lua commands not running so idk then
+
+
+http://torch.ch/docs/getting-started.html#
+- need to remember to install torch as well, not just download it 
+- installation of torch ... some mixups too 
+https://github.com/torch/distro/issues/239
+
+
+
+-- need to put all of this into a script somehow... 
+
+
+--- prob very useful to keep instance running after closing laptop, etc.
+http://orcaman.blogspot.com/2013/08/google-compute-engine-keeping-your.html
+https://debian-administration.org/article/34/Using_GNU_Screen
