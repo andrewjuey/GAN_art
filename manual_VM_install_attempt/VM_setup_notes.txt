@@ -1,0 +1,183 @@
+1st step involves setting up GCP VM with ubuntu + GPUs 
+then need to get CUDA and CuDNN
+
+-- maybe ask someone at work about VMs too ... 
+-- as long as you don't delete, can get back in with everything still in it, right?
+-- but then does it continue to get charged ...?
+
+
+#### core documentation notes
+
+https://github.com/robbiebarrat/art-DCGAN/blob/master/INSTALL.md
+https://github.com/soumith/dcgan.torch#vector-arithmetic
+https://arxiv.org/pdf/1511.06434.pdf
+
+
+pytorch GCP VM
+https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance
+
+
+https://medium.com/@jayden.chua/quick-install-cuda-on-google-cloud-compute-6c85447f86a1
+
+https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance#before_you_begin
+
+https://forums.fast.ai/t/lesson-1-using-google-cloud-vm-step-by-step-installation-with-shell-script/7180
+
+
+#### 
+
+GCP billing ... some confusion around turning on/off properly
+https://cloud.google.com/billing/docs/how-to/reports
+
+
+-- issue was getting CUDA and CuDNN onto the virtual machine ...
+-- also getting data up there too eventually 
+-- should pull all of this in a GCS bucket i guess
+
+
+## gets cuda up and running right
+https://mc.ai/deep-learning-with-google-cloud-platform-part2-how-to-install-cuda-on-your-compute-engine/
+
+
+
+
+https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.3.1/prod/9.0_2018927/Ubuntu16_04-x64/libcudnn7-dev_7.3.1.20-1-cuda9.0_amd64
+
+
+
+tar.gz file or .deb ... ? 
+
+
+### This has to be done not in the remote computer but in local file!!!
+gcloud compute scp /Users/andrewju/Desktop/data-art-gan/libcudnn7-dev_7.3.1.20-1+cuda9.0_amd64.deb test-11-3-vm:/tmp
+
+
+### always getting this error... wtf
+(gcloud.compute.scp) Could not fetch resource:
+ - Insufficient Permission
+
+ https://stackoverflow.com/questions/49584800/error-gcloud-compute-ssh-could-not-fetch-resource-insufficient-permission
+
+
+https://stackoverflow.com/questions/29024052/receiving-a-no-such-file-or-directory-error-gcloud-compute-copy-files-onto-inst
+https://superuser.com/questions/1204664/no-such-file-or-directory-error-when-attempting-to-copy-using-scp-from-remot
+
+
+
+sudo dpkg -i libcudnn7-dev_7.3.1.20-1+cuda9.0_amd64.deb 
+
+
+
+libcudnn7-dev_7.3.1.20-1+cuda9.0_amd64.deb
+
+
+
+https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html 
+
+documentation works the best
+need to do all 3 libraries at once each time
+
+
+
+
+######## 
+ok so now that VM properly set up ... 
+how tf to actually run this? lets see 
+
+# i thought this VM already had pytorch on it ... but lua commands not running so idk then
+
+
+http://torch.ch/docs/getting-started.html#
+- need to remember to install torch as well, not just download it 
+- installation of torch ... some mixups too 
+https://github.com/torch/distro/issues/239
+
+
+
+-- need to put all of this into a script somehow... 
+
+
+--- prob very useful to keep instance running after closing laptop, etc.
+http://orcaman.blogspot.com/2013/08/google-compute-engine-keeping-your.html
+https://debian-administration.org/article/34/Using_GNU_Screen
+
+
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+-
+trying to get back in a week later and all sorts of noise about resources being overbooked, and us-west only has 1 source with GPUs...
+- attempts to switch zone but giving up later too 
+
+gcloud compute instances move test-11-3-vm \ --zone us-west1-b -- destination-zone us-central1-c 
+
+for automatic move, has to be in same region ... and for GPUs, only west1-b works, so can never auto move in west region
+
+but don't even know how to check availability in other regions?? so can't even tell if region you're copying too will have resources ... 
+
+12 hours later and still says no resources ... wtf
+
+
+https://cloud.google.com/compute/docs/instances/moving-instance-across-zones
+
+https://groups.google.com/forum/#!msg/gce-discussion/asJA71NDkZM/2qon8TQZBQAJ
+
+
+
+gcloud compute instances set-disk-auto-delete test-11-3-vm --zone us-west1-b \
+    --disk test-11-3-vm --no-auto-delete
+
+gcloud compute instances describe test-11-3-vm --zone us-west1-b | \
+tee test-11-3-vm.describe
+
+gcloud compute disks snapshot test-11-3-vm \
+    --snapshot-names backup-diskbackup \
+    --zone us-west1-b
+
+gcloud compute snapshots list
+
+
+## is it fine that there's no root & data disk for my VM ... ? only seeing standard one 
+
+
+
+gcloud compute instances create test-11-10 --machine-type n1-standard-4 \
+    --zone us-central1-c \
+    --disk name=backup-diskbackup,boot=yes,mode=rw \
+    --disk name=backup-diskbackup,mode=rw
+
+
+export IMAGE_FAMILY="pytorch-latest-cu92"
+export ZONE="us-central1-c"
+export INSTANCE_NAME="test-11-10"
+
+gcloud compute instances create test-11-10 \
+  --zone=us-central1-c \
+  --image-family= pytorch-0-4-cu92 \
+  --image-project=deeplearning-platform-release \
+  --maintenance-policy=TERMINATE \
+  --accelerator='type=nvidia-tesla-k80, count=1' \
+  --metadata='install-nvidia-driver=True'
+
+
+
+
+
+gcloud compute instances delete test-11-3-vm --zone us-west1-b
+
+eventually launches in east-asia1-a ... weird 
+
+
+
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+LINKS TO USE (hopefully never have to do this again w docker etc...)
+
+https://askubuntu.com/questions/61396/how-do-i-install-the-nvidia-drivers
+https://devtalk.nvidia.com/default/topic/1025578/linux/nvidia-driver-384-can-t-be-installed-correctly-on-ubuntu-16-04-/
+https://ubuntuforums.org/showthread.php?t=2370033
+
+
+https://medium.com/@jayden.chua/quick-install-cuda-on-google-cloud-compute-6c85447f86a1
+https://forums.fast.ai/t/lesson-1-using-google-cloud-vm-step-by-step-installation-with-shell-script/7180/10
+https://mc.ai/install-cuda-9-2-and-cudnn-7-1-for-tensorflow-pytorch-gpu-on-ubuntu-16-04/

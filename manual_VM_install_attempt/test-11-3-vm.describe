@@ -1,0 +1,76 @@
+canIpForward: false
+cpuPlatform: Unknown CPU Platform
+creationTimestamp: '2018-11-03T13:51:41.311-07:00'
+deletionProtection: false
+disks:
+- autoDelete: false
+  boot: true
+  deviceName: tensorflow-vm-tmpl-boot-disk
+  guestOsFeatures:
+  - type: VIRTIO_SCSI_MULTIQUEUE
+  index: 0
+  interface: SCSI
+  kind: compute#attachedDisk
+  licenses:
+  - https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-9-stretch
+  - https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-tensorflow
+  - https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-cu91-pytorch
+  mode: READ_WRITE
+  source: https://www.googleapis.com/compute/v1/projects/data-art-gans/zones/us-west1-b/disks/test-11-3-vm
+  type: PERSISTENT
+guestAccelerators:
+- acceleratorCount: 1
+  acceleratorType: https://www.googleapis.com/compute/v1/projects/data-art-gans/zones/us-west1-b/acceleratorTypes/nvidia-tesla-k80
+id: '2868292347780904115'
+kind: compute#instance
+labelFingerprint: V75D37NelJU=
+labels:
+  goog-dm: test-11-3
+machineType: https://www.googleapis.com/compute/v1/projects/data-art-gans/zones/us-west1-b/machineTypes/n1-highmem-2
+metadata:
+  fingerprint: 7FKDjUCmAn0=
+  items:
+  - key: install-nvidia-driver
+    value: 'True'
+  - key: status-config-url
+    value: https://runtimeconfig.googleapis.com/v1beta1/projects/data-art-gans/configs/test-11-3-config
+  - key: status-variable-path
+    value: status
+  - key: status-uptime-deadline
+    value: '600'
+  - key: google-monitoring-enable
+    value: '0'
+  - key: google-logging-enable
+    value: '0'
+  kind: compute#metadata
+name: test-11-3-vm
+networkInterfaces:
+- accessConfigs:
+  - kind: compute#accessConfig
+    name: External NAT
+    networkTier: PREMIUM
+    type: ONE_TO_ONE_NAT
+  fingerprint: EUKWsm7GYzI=
+  kind: compute#networkInterface
+  name: nic0
+  network: https://www.googleapis.com/compute/v1/projects/data-art-gans/global/networks/default
+  networkIP: 10.138.0.3
+  subnetwork: https://www.googleapis.com/compute/v1/projects/data-art-gans/regions/us-west1/subnetworks/default
+scheduling:
+  automaticRestart: true
+  onHostMaintenance: TERMINATE
+  preemptible: false
+selfLink: https://www.googleapis.com/compute/v1/projects/data-art-gans/zones/us-west1-b/instances/test-11-3-vm
+serviceAccounts:
+- email: 1059591125251-compute@developer.gserviceaccount.com
+  scopes:
+  - https://www.googleapis.com/auth/cloud.useraccounts.readonly
+  - https://www.googleapis.com/auth/devstorage.read_only
+  - https://www.googleapis.com/auth/logging.write
+  - https://www.googleapis.com/auth/monitoring.write
+  - https://www.googleapis.com/auth/cloudruntimeconfig
+startRestricted: false
+status: TERMINATED
+tags:
+  fingerprint: 42WmSpB8rSM=
+zone: https://www.googleapis.com/compute/v1/projects/data-art-gans/zones/us-west1-b

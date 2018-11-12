@@ -1,0 +1,147 @@
+DOCKER SET UP NOTES
+
+
+links
+- master docker file
+https://github.com/floydhub/dl-docker/blob/master/README.md
+- backup to try later mebe
+https://github.com/kylemcdonald/ml-notebook
+https://github.com/Kaixhin/dockerfiles
+
+good tutorials
+http://deepgraph.io/blog/getting-started-deep-learning/
+https://publicityreform.github.io/findbyimage/DL-Docker.html
+
+
+installing docker on VM
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04
+
+docker commands -- ps, attach, ctrl p q
+https://vsupalov.com/exit-docker-container/
+
+copying files from local to gcp and then to docker
+https://stackoverflow.com/questions/44982313/how-to-copy-files-from-google-compute-engine-to-local-directory
+https://stackoverflow.com/questions/22907231/copying-files-from-host-to-docker-container
+https://stackoverflow.com/questions/27807018/gcloud-compute-copy-files-permission-denied-when-copying-files
+
+weird bug on launching gpu docker file ... 
+https://github.com/floydhub/dl-docker/issues/52
+
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+-
+
+
+
+nvidia-docker run -it -p 8888:8888 -p 6006:6006 -v /sharedfolder:/root/sharedfolder floydhub/dl-docker:gpu bash
+
+
+
+--- so i have this docker file on my local machine ...
+- question of how to get it up onto cloud ?
+- there was compilation etc done on it ... 
+- does it need to be on GCS then? would make sense ... 
+
+
+
+
+gcloud compute scp --project data-art-gans --zone asia-east1-a --recurse /Users/andrewju/Desktop/data_art/dl-docker/Dockerfile.gpu dockertest-vm:~/
+
+
+gcloud compute ssh --project data-art-gans --zone asia-east1-a dockertest-vm -- -L 8080:localhost:8080
+
+
+nvidia-docker run -it -p 8888:8888 -p 6006:6006 -v /sharedfolder:/root/sharedfolder /home/andrewju/dl-docker:gpu bash
+
+
+interesting, once the dockerfile is up ... still need to build it?
+
+docker build -t floydhub/dl-docker:gpu -f Dockerfile.gpu .
+
+sudo 
+
+nvidia-docker run -it -p 8888:8888 -p 6006:6006 -v /sharedfolder:/root/sharedfolder /home/andrewju/dl-docker:gpu bash
+
+
+
+sudo nvidia-docker run --rm --name tf1 -p 8888:8888 -p 6006:6006 gcr.io/
+
+
+
+gcloud builds submit --tag gcr.io/data-art-GANs/Dockerfile.gpu .
+
+
+
+
+http://deepgraph.io/blog/getting-started-deep-learning/
+-- not sure why early steps (sudo etc) don't work ...
+-- would GCP instances automatically allow some of these? didnt see any for torch tho... 
+
+
+
+nvidia-docker run -it -p 8888:8888 -p 6006:6006 -v /sharedfolder:/root/sharedfolder gpu bash
+
+
+nvidia-docker run -it -p 8888:8888 -p 6006:6006 -v /sharedfolder:/root/sharedfolder floydhub/dl-docker:gpu bash
+
+
+docker run -it -p 8888:8888 -p 6006:6006 -v /sharedfolder:/root/sharedfolder floydhub/dl-docker:gpu bash
+
+
+
+not working ... maybe b/c on a VM with pytorch and other things installed already?? try one last time from hard scratch 
+
+
+
+
+docker build -t floydhub/dl-docker:gpu -f Dockerfile.gpu .
+
+
+https://publicityreform.github.io/findbyimage/DL-Docker.html
+
+KEY PART ...
+docker run -it -p 8888:8888 -p 6006:6006 -v [yourhomedirectoryhere]/sharedfolder:/root/sharedfolder floydhub/dl-docker:cpu bash
+
+docker run -it -p 8888:8888 -p 6006:6006 -v /home/andrewju/sharedfolder:/root/sharedfolder floydhub/dl-docker:cpu bash
+
+nvidia-docker run -it -p 8888:8888 -p 6006:6006 -v /home/andrewju/sharedfolder:/root/sharedfolder floydhub/dl-docker:gpu bash
+
+still not working, seems like an issue on floydhub part for GPU ... daemon not found, so idk
+CPU works fine, but need gpu i think 
+
+---- try switching to just torch specific ...? 
+
+
+jsut run on CPU
+
+if i do a lot of work on CPU then need to switch over and get rid of GPUs ... or even run docker on local environment lol 
+- 
+
+
+# ytf need to say/use @root ... and not noted anywhere
+gcloud compute scp /Users/andrewju/Desktop/data_art/gan_image_data/landscapes_776_net_G_cpu.t7 root@dockertest-blank:/~
+
+
+find /home/andrewju/ -name "*.t7"
+
+find . -name ",t7" -exec chmod o+r '{}' \;
+
+
+containerid
+840978aa17d6
+
+
+net=landscapes_776_net_G_cpu.t7 th generate.lua
+
+
+gpu=0 net=[DATA_ROOT=myimages dataset=folder netD=checkpoints/your_discriminator_net.t7 netG=your_driscriminator_net.t7 th main.lua] th generate.lua
+
+
+
+at least asia-east1-a isn't having resource availability issues ... 
+
+
+main trick is to do it on blank VM, nothing with pytorch etc already set up -- dependencies etc all fuck up
+
+still not sure about why GPU isn't working though
+

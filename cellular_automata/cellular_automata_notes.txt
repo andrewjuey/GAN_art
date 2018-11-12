@@ -1,0 +1,18 @@
+CELLULAR AUTOMATA NOTES
+
+-- potential side project
+- uses rhinoscriptsyntax + rhinoceros 
+
+http://code.algorithmicdesign.net/1d-Cellular-Automata-Surface
+
+
+
+
+auxiliary links
+http://greenteapress.com/complexity/html/thinkcomplexity007.html
+https://en.wikipedia.org/wiki/Von_Neumann_universal_constructor
+
+learn processing lol
+http://learningprocessing.com/
+https://natureofcode.com/book/
+
