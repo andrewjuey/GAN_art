@@ -1,0 +1,1192 @@
+Last login: Tue Nov 13 09:17:53 on ttys000
+Andrews-MacBook-Pro:~ andrewju$ gcloud compute --project "data-art-gans" ssh --zone "asia-east1-a" "dockertest-blank"
+Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 4.4.0-138-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+  System information as of Tue Nov 13 17:18:10 UTC 2018
+
+  System load: 0.16               Memory usage: 0%   Processes:       69
+  Usage of /:  12.5% of 98.40GB   Swap usage:   0%   Users logged in: 0
+
+  Graph this data and manage this system at:
+    https://landscape.canonical.com/
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+2 packages can be updated.
+0 updates are security updates.
+
+Your Hardware Enablement Stack (HWE) is supported until April 2019.
+
+Last login: Mon Nov 12 08:44:27 2018 from 23.240.103.143
+andrewju@dockertest-blank:~$ ls
+dl-docker  landscapes_776_net_D_cpu.t7  landscapes_776_net_G_cpu.t7  sharedfolder
+andrewju@dockertest-blank:~$ nvidia-docker run -it -p 8888:8888 -p 6006:6006 -v /home/andrewju/sharedfolder:/root/sharedfolder floydhub/dl-docker:gpu bash
+Unable to find image 'floydhub/dl-docker:gpu' locally
+docker: Error response from daemon: manifest for floydhub/dl-docker:gpu not found.
+See 'docker run --help'.
+andrewju@dockertest-blank:~$ cd dl-docker/
+andrewju@dockertest-blank:~/dl-docker$ nvidia-docker run -it -p 8888:8888 -p 6006:6006 -v /home/andrewju/sharedfolder:/root/sharedfolder floydhub/dl-docker:gpu bash
+Unable to find image 'floydhub/dl-docker:gpu' locally
+
+docker: Error response from daemon: manifest for floydhub/dl-docker:gpu not found.
+See 'docker run --help'.
+andrewju@dockertest-blank:~/dl-docker$ 
+andrewju@dockertest-blank:~/dl-docker$ docker run -it -p 8888:8888 -p 6006:6006 -v /home/andrewju/sharedfolder:/root/sharedfolder floydhub/dl-docker:cpu bash
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ~
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@da630310f12a:/# cd ~
+root@da630310f12a:~# s
+bash: s: command not found
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# andrewju@dockertest-blank:~/dl-docker$ docker ps
+CONTAINER ID        IMAGE                    COMMAND             CREATED             STATUS              PORTS                                            NAMES
+da630310f12a        floydhub/dl-docker:cpu   "bash"              47 seconds ago      Up 44 seconds       0.0.0.0:6006->6006/tcp, 0.0.0.0:8888->8888/tcp   boring_lichterman
+andrewju@dockertest-blank:~/dl-docker$ docker cp landscapes_776_net_G_cpu.t7 da630310f12a:/landscapes_776_net_G_cpu.t7lstat /home/andrewju/dl-docker/landscapes_776_net_G_cpu.t7: no such file or directory
+andrewju@dockertest-blank:~/dl-docker$ ls
+automated_build  Dockerfile.cpu  Dockerfile.gpu  jupyter_notebook_config.py  README.md  run_jupyter.sh
+andrewju@dockertest-blank:~/dl-docker$ cd ..
+andrewju@dockertest-blank:~$ ls
+dl-docker  landscapes_776_net_D_cpu.t7  landscapes_776_net_G_cpu.t7  sharedfolder
+andrewju@dockertest-blank:~$ docker cp landscapes_776_net_G_cpu.t7 da630310f12a:/landscapes_776_net_G_cpu.t7
+
+andrewju@dockertest-blank:~$ 
+andrewju@dockertest-blank:~$ docker attach da630310f12a
+root@da630310f12a:~# 
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# ls
+bin   dev  home                         lib    media  opt   root  sbin  sys  usr
+boot  etc  landscapes_776_net_G_cpu.t7  lib64  mnt    proc  run   srv   tmp  var
+root@da630310f12a:/# cd ~
+root@da630310f12a:~# read escape sequence
+andrewju@dockertest-blank:~$ docker cp landscapes_776_net_G_cpu.t7 da630310f12a:/landscapes_776_net_D_cpu.t7
+andrewju@dockertest-blank:~$ docker ps
+CONTAINER ID        IMAGE                    COMMAND             CREATED             STATUS              PORTS                                            NAMES
+da630310f12a        floydhub/dl-docker:cpu   "bash"              5 minutes ago       Up 5 minutes        0.0.0.0:6006->6006/tcp, 0.0.0.0:8888->8888/tcp   boring_lichterman
+andrewju@dockertest-blank:~$ docker attach da630310f12a
+root@da630310f12a:~# 
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# ls
+bin   dev  home                         landscapes_776_net_G_cpu.t7  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  landscapes_776_net_D_cpu.t7  lib                          media  opt  root  sbin  sys  usr
+root@da630310f12a:/# ls
+bin   dev  home                         landscapes_776_net_G_cpu.t7  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  landscapes_776_net_D_cpu.t7  lib                          media  opt  root  sbin  sys  usr
+root@da630310f12a:/# pwd
+/
+root@da630310f12a:/# cp /landscapes_776_net_D_cpu.t7 /~
+root@da630310f12a:/# cd ~
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ~
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# ls
+bin   dev  home                         landscapes_776_net_G_cpu.t7  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  landscapes_776_net_D_cpu.t7  lib                          media  opt  root  sbin  sys  usr  ~
+root@da630310f12a:/# cd ~
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# cp /landscapes_776_net_G_cpu.t7 /~
+root@da630310f12a:/# ls
+bin   dev  home                         landscapes_776_net_G_cpu.t7  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  landscapes_776_net_D_cpu.t7  lib                          media  opt  root  sbin  sys  usr  ~
+root@da630310f12a:/# cd ~
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# ls
+bin   dev  home                         landscapes_776_net_G_cpu.t7  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  landscapes_776_net_D_cpu.t7  lib                          media  opt  root  sbin  sys  usr  ~
+root@da630310f12a:/# cd ~
+root@da630310f12a:~# ls
+caffe  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# sudo mv landscapes_776_net_G_cpu.t7 ~/
+root@da630310f12a:/# cd ~
+root@da630310f12a:~# ls
+caffe  iTorch  landscapes_776_net_G_cpu.t7  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# sudo mv landscapes_776_net_D_cpu.t7 ~/
+root@da630310f12a:/# cd ~
+root@da630310f12a:~# ls
+caffe  iTorch  landscapes_776_net_D_cpu.t7  landscapes_776_net_G_cpu.t7  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# tha main.lua
+bash: tha: command not found
+root@da630310f12a:~# th main.lua
+/root/torch/install/bin/luajit: cannot open main.lua: No such file or directory
+stack traceback:
+	[C]: in function 'dofile'
+	/root/torch/install/lib/luarocks/rocks/trepl/scm-1/bin/th:145: in main chunk
+	[C]: at 0x00406670
+root@da630310f12a:~# torch
+bash: torch: command not found
+root@da630310f12a:~# cd torch
+root@da630310f12a:~/torch# cd ..
+root@da630310f12a:~# cd run_jupyter.sh 
+bash: cd: run_jupyter.sh: Not a directory
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# bash run_jupyter.sh
+bash: run_jupyter.sh: No such file or directory
+root@da630310f12a:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var  ~
+root@da630310f12a:/# cd ~
+root@da630310f12a:~# bash run_jupyter.sh 
+[I 17:38:57.765 NotebookApp] Copying /root/.ipython/kernels -> /root/.local/share/jupyter/kernels
+[I 17:38:57.822 NotebookApp] Writing notebook server cookie secret to /root/.local/share/jupyter/runtime/notebook_cookie_secret
+[W 17:38:57.978 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using encryption. This is not recommended.
+[W 17:38:57.978 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using authentication. This is highly insecure and not recommended.
+[I 17:38:58.068 NotebookApp] Serving notebooks from local directory: /root
+[I 17:38:58.068 NotebookApp] 0 active kernels 
+[I 17:38:58.068 NotebookApp] The Jupyter Notebook is running at: http://[all ip addresses on your system]:8888/
+[I 17:38:58.069 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+
+^C[I 17:48:24.291 NotebookApp] interrupted
+Serving notebooks from local directory: /root
+0 active kernels 
+The Jupyter Notebook is running at: http://[all ip addresses on your system]:8888/
+Shutdown this notebook server (y/[n])? y
+[C 17:48:27.251 NotebookApp] Shutdown confirmed
+[I 17:48:27.252 NotebookApp] Shutting down kernels
+root@da630310f12a:~# curl iconfig.me
+curl: (6) Could not resolve host: iconfig.me
+root@da630310f12a:~# ls
+caffe  iTorch  landscapes_776_net_D_cpu.t7  landscapes_776_net_G_cpu.t7  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# curl ifconfig.me
+35.221.171.167
+root@da630310f12a:~# ls     
+caffe  iTorch  landscapes_776_net_D_cpu.t7  landscapes_776_net_G_cpu.t7  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# bash run_jupyter.sh 
+[W 17:49:12.843 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using encryption. This is not recommended.
+[W 17:49:12.843 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using authentication. This is highly insecure and not recommended.
+[I 17:49:12.849 NotebookApp] Serving notebooks from local directory: /root
+[I 17:49:12.849 NotebookApp] 0 active kernels 
+[I 17:49:12.850 NotebookApp] The Jupyter Notebook is running at: http://[all ip addresses on your system]:8888/
+[I 17:49:12.850 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+^C[I 17:50:19.592 NotebookApp] interrupted
+Serving notebooks from local directory: /root
+0 active kernels 
+The Jupyter Notebook is running at: http://[all ip addresses on your system]:8888/
+Shutdown this notebook server (y/[n])? ^C[C 17:50:19.785 NotebookApp] received signal 2, stopping
+[I 17:50:19.785 NotebookApp] Shutting down kernels
+root@da630310f12a:~# jupyter notebook --ip=35.221.171.167
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-notebook", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 595, in launch_instance
+    app.initialize(argv)
+  File "<decorator-gen-7>", line 2, in initialize
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 74, in catch_config_error
+    return method(app, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/notebook/notebookapp.py", line 1071, in initialize
+    self.init_webapp()
+  File "/usr/local/lib/python2.7/dist-packages/notebook/notebookapp.py", line 919, in init_webapp
+    self.http_server.listen(port, self.ip)
+  File "/usr/local/lib/python2.7/dist-packages/tornado/tcpserver.py", line 126, in listen
+    sockets = bind_sockets(port, address=address)
+  File "/usr/local/lib/python2.7/dist-packages/tornado/netutil.py", line 196, in bind_sockets
+    sock.bind(sockaddr)
+  File "/usr/lib/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 99] Cannot assign requested address
+root@da630310f12a:~# bash run_jupyter.sh 
+[W 17:51:15.274 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using encryption. This is not recommended.
+[W 17:51:15.274 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using authentication. This is highly insecure and not recommended.
+[I 17:51:15.281 NotebookApp] Serving notebooks from local directory: /root
+[I 17:51:15.281 NotebookApp] 0 active kernels 
+[I 17:51:15.281 NotebookApp] The Jupyter Notebook is running at: http://[all ip addresses on your system]:8888/
+[I 17:51:15.281 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+jupyter notebook --ip xx.xx.xx.xx --port 8888
+^C[I 18:01:24.941 NotebookApp] interrupted
+Serving notebooks from local directory: /root
+0 active kernels 
+The Jupyter Notebook is running at: http://[all ip addresses on your system]:8888/
+Shutdown this notebook server (y/[n])? ^C[C 18:01:25.100 NotebookApp] received signal 2, stopping
+[I 18:01:25.101 NotebookApp] Shutting down kernels
+root@da630310f12a:~# ls
+caffe  iTorch  landscapes_776_net_D_cpu.t7  landscapes_776_net_G_cpu.t7  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# jupyter notebook
+[W 18:01:32.119 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using encryption. This is not recommended.
+[W 18:01:32.119 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using authentication. This is highly insecure and not recommended.
+[I 18:01:32.124 NotebookApp] Serving notebooks from local directory: /root
+[I 18:01:32.124 NotebookApp] 0 active kernels 
+[I 18:01:32.124 NotebookApp] The Jupyter Notebook is running at: http://[all ip addresses on your system]:8888/
+[I 18:01:32.124 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+^C[I 18:02:09.786 NotebookApp] interrupted
+Serving notebooks from local directory: /root
+0 active kernels 
+The Jupyter Notebook is running at: http://[all ip addresses on your system]:8888/
+Shutdown this notebook server (y/[n])? ^C[C 18:02:09.925 NotebookApp] received signal 2, stopping
+[I 18:02:09.925 NotebookApp] Shutting down kernels
+root@da630310f12a:~# jupyter notebook --ip 0.0.0.0 --no-browser
+[I 18:02:11.785 NotebookApp] Serving notebooks from local directory: /root
+[I 18:02:11.785 NotebookApp] 0 active kernels 
+[I 18:02:11.785 NotebookApp] The Jupyter Notebook is running at: http://0.0.0.0:8888/
+[I 18:02:11.785 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+^C[I 18:06:05.120 NotebookApp] interrupted
+Serving notebooks from local directory: /root
+0 active kernels 
+The Jupyter Notebook is running at: http://0.0.0.0:8888/
+Shutdown this notebook server (y/[n])? ^C[C 18:06:05.297 NotebookApp] received signal 2, stopping
+[I 18:06:05.297 NotebookApp] Shutting down kernels
+root@da630310f12a:~# upyter notebook --ip 0.0.0.0 --port 8888 --no-browser --allow-root
+bash: upyter: command not found
+root@da630310f12a:~# jjupyter notebook --ip 0.0.0.0 --port 8888 --no-browser --allow-root
+bash: jjupyter: command not found
+root@da630310f12a:~# jupyter notebook --ip 0.0.0.0 --port 8888 --no-browser --allow-root
+The Jupyter HTML Notebook.
+
+This launches a Tornado based HTML Notebook Server that serves up an
+HTML5/Javascript Notebook client.
+
+Subcommands
+-----------
+
+Subcommands are launched as `jupyter-notebook cmd [args]`. For information on
+using subcommand 'cmd', do: `jupyter-notebook cmd -h`.
+
+list
+    List currently running notebook servers.
+
+Options
+-------
+
+Arguments that take values are actually convenience aliases to full
+Configurables, whose aliases are listed on the help line. For more information
+on full configurables, see '--help-all'.
+
+--script
+    DEPRECATED, IGNORED
+--pylab
+    DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib.
+--debug
+    set log level to logging.DEBUG (maximize logging output)
+--no-browser
+    Don't open the notebook in a browser after startup.
+-y
+    Answer yes to any questions instead of prompting.
+--no-mathjax
+    Disable MathJax
+    
+    MathJax is the javascript library Jupyter uses to render math/LaTeX. It is
+    very large, so you may want to disable it if you have a slow internet
+    connection, or for offline use of the notebook.
+    
+    When disabled, equations etc. will appear as their untransformed TeX source.
+--no-script
+    DEPRECATED, IGNORED
+--generate-config
+    generate default config file
+--certfile=<Unicode> (NotebookApp.certfile)
+    Default: u''
+    The full path to an SSL/TLS certificate file.
+--ip=<Unicode> (NotebookApp.ip)
+    Default: 'localhost'
+    The IP address the notebook server will listen on.
+--pylab=<Unicode> (NotebookApp.pylab)
+    Default: 'disabled'
+    DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib.
+--log-level=<Enum> (Application.log_level)
+    Default: 30
+    Choices: (0, 10, 20, 30, 40, 50, 'DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL')
+    Set the log level by value or name.
+--port-retries=<Integer> (NotebookApp.port_retries)
+    Default: 50
+    The number of additional ports to try if the specified port is not
+    available.
+--notebook-dir=<Unicode> (NotebookApp.notebook_dir)
+    Default: u''
+    The directory to use for notebooks and kernels.
+--keyfile=<Unicode> (NotebookApp.keyfile)
+    Default: u''
+    The full path to a private key file for usage with SSL/TLS.
+--client-ca=<Unicode> (NotebookApp.client_ca)
+    Default: u''
+    The full path to a certificate authority certifificate for SSL/TLS client
+    authentication.
+--config=<Unicode> (JupyterApp.config_file)
+    Default: u''
+    Full path of a config file.
+--port=<Integer> (NotebookApp.port)
+    Default: 8888
+    The port the notebook server will listen on.
+--transport=<CaselessStrEnum> (KernelManager.transport)
+    Default: 'tcp'
+    Choices: [u'tcp', u'ipc']
+--browser=<Unicode> (NotebookApp.browser)
+    Default: u''
+    Specify what command to use to invoke a web browser when opening the
+    notebook. If not specified, the default browser will be determined by the
+    `webbrowser` standard library module, which allows setting of the BROWSER
+    environment variable to override it.
+
+To see all available configurables, use `--help-all`
+
+Examples
+--------
+
+    jupyter notebook                       # start the notebook
+    jupyter notebook --certfile=mycert.pem # use SSL/TLS certificate
+
+[C 18:09:57.067 NotebookApp] Bad config encountered during initialization:
+[C 18:09:57.067 NotebookApp] Unrecognized flag: '--allow-root'
+root@da630310f12a:~# jupyter notebook --ip 0.0.0.0 --port 8888 --no-browser
+[I 18:10:26.741 NotebookApp] Serving notebooks from local directory: /root
+[I 18:10:26.741 NotebookApp] 0 active kernels 
+[I 18:10:26.741 NotebookApp] The Jupyter Notebook is running at: http://0.0.0.0:8888/
+[I 18:10:26.741 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+^C[I 18:10:50.314 NotebookApp] interrupted
+Serving notebooks from local directory: /root
+0 active kernels 
+The Jupyter Notebook is running at: http://0.0.0.0:8888/
+Shutdown this notebook server (y/[n])? ^C[C 18:10:50.518 NotebookApp] received signal 2, stopping
+[I 18:10:50.518 NotebookApp] Shutting down kernels
+root@da630310f12a:~# jupyter notebook --ip 0.0.0.0 --no-browser
+[I 18:16:11.371 NotebookApp] Serving notebooks from local directory: /root
+[I 18:16:11.371 NotebookApp] 0 active kernels 
+[I 18:16:11.371 NotebookApp] The Jupyter Notebook is running at: http://0.0.0.0:8888/
+[I 18:16:11.371 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+^C[I 18:28:16.340 NotebookApp] interrupted
+Serving notebooks from local directory: /root
+0 active kernels 
+The Jupyter Notebook is running at: http://0.0.0.0:8888/
+Shutdown this notebook server (y/[n])? ^C[C 18:28:16.489 NotebookApp] received signal 2, stopping
+[I 18:28:16.489 NotebookApp] Shutting down kernels
+root@da630310f12a:~# ls
+caffe  iTorch  landscapes_776_net_D_cpu.t7  landscapes_776_net_G_cpu.t7  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# git clone https://github.com/soumith/dcgan.torch.git
+Cloning into 'dcgan.torch'...
+remote: Enumerating objects: 164, done.
+remote: Total 164 (delta 0), reused 0 (delta 0), pack-reused 164
+Receiving objects: 100% (164/164), 3.07 MiB | 1.51 MiB/s, done.
+Resolving deltas: 100% (80/80), done.
+Checking connectivity... done.
+root@da630310f12a:~# ls
+caffe        iTorch                       landscapes_776_net_G_cpu.t7  sharedfolder
+dcgan.torch  landscapes_776_net_D_cpu.t7  run_jupyter.sh               torch
+root@da630310f12a:~# pwd
+/root
+root@da630310f12a:~# cd dcgan.torch/
+root@da630310f12a:~/dcgan.torch# ls
+INSTALL.md  LICENSE.md  PATENTS  README.md  arithmetic.lua  data  generate.lua  images  main.lua
+root@da630310f12a:~/dcgan.torch# cd ..
+root@da630310f12a:~# ls
+caffe        iTorch                       landscapes_776_net_G_cpu.t7  sharedfolder
+dcgan.torch  landscapes_776_net_D_cpu.t7  run_jupyter.sh               torch
+root@da630310f12a:~# pwd
+/root
+root@da630310f12a:~# sudo mv landscapes_776_net_D_cpu.t7 /
+root@da630310f12a:~# cd ~
+root@da630310f12a:~# ls
+caffe  dcgan.torch  iTorch  landscapes_776_net_G_cpu.t7  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# ls
+bin   dev  home                         lib    media  opt   root  sbin  sys  usr  ~
+boot  etc  landscapes_776_net_D_cpu.t7  lib64  mnt    proc  run   srv   tmp  var
+root@da630310f12a:/# cd .. 
+root@da630310f12a:/# ls
+bin   dev  home                         lib    media  opt   root  sbin  sys  usr  ~
+boot  etc  landscapes_776_net_D_cpu.t7  lib64  mnt    proc  run   srv   tmp  var
+root@da630310f12a:/# cd ~
+root@da630310f12a:~# ls
+caffe  dcgan.torch  iTorch  landscapes_776_net_G_cpu.t7  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ~
+root@da630310f12a:~# ls
+caffe  dcgan.torch  iTorch  landscapes_776_net_G_cpu.t7  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# sudo mv landscapes_776_net_G_cpu.t7 ~/dcgan.torch/
+root@da630310f12a:~# ls
+caffe  dcgan.torch  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ~
+root@da630310f12a:~# ls
+caffe  dcgan.torch  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ~
+root@da630310f12a:~# ls
+caffe  dcgan.torch  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd dcgan.torch/
+root@da630310f12a:~/dcgan.torch# ls
+INSTALL.md  PATENTS    arithmetic.lua  generate.lua  landscapes_776_net_G_cpu.t7
+LICENSE.md  README.md  data            images        main.lua
+root@da630310f12a:~/dcgan.torch# cd /root
+root@da630310f12a:~# ls
+caffe  dcgan.torch  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ~
+root@da630310f12a:~# ls
+caffe  dcgan.torch  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd ..
+root@da630310f12a:/# ls
+bin   dev  home                         lib    media  opt   root  sbin  sys  usr  ~
+boot  etc  landscapes_776_net_D_cpu.t7  lib64  mnt    proc  run   srv   tmp  var
+root@da630310f12a:/# sudo mv landscapes_776_net_D_cpu.t7 ~/dcgan.torch/
+root@da630310f12a:/# cd ~/dcgan.torch/
+root@da630310f12a:~/dcgan.torch# ls
+INSTALL.md  PATENTS    arithmetic.lua  generate.lua  landscapes_776_net_D_cpu.t7  main.lua
+LICENSE.md  README.md  data            images        landscapes_776_net_G_cpu.t7
+root@da630310f12a:~/dcgan.torch# net=landscapes_776_net_G_cpu.t7 th generate.lua
+/root/torch/install/bin/luajit: /root/torch/install/share/lua/5.1/trepl/init.lua:384: module 'optnet' not found:No LuaRocks module found for optnet
+	no field package.preload['optnet']
+	no file '/root/.luarocks/share/lua/5.1/optnet.lua'
+	no file '/root/.luarocks/share/lua/5.1/optnet/init.lua'
+	no file '/root/torch/install/share/lua/5.1/optnet.lua'
+	no file '/root/torch/install/share/lua/5.1/optnet/init.lua'
+	no file './optnet.lua'
+	no file '/root/torch/install/share/luajit-2.1.0-beta1/optnet.lua'
+	no file '/usr/local/share/lua/5.1/optnet.lua'
+	no file '/usr/local/share/lua/5.1/optnet/init.lua'
+	no file '/root/.luarocks/lib/lua/5.1/optnet.so'
+	no file '/root/torch/install/lib/lua/5.1/optnet.so'
+	no file '/root/torch/install/lib/optnet.so'
+	no file './optnet.so'
+	no file '/usr/local/lib/lua/5.1/optnet.so'
+	no file '/usr/local/lib/lua/5.1/loadall.so'
+stack traceback:
+	[C]: in function 'error'
+	/root/torch/install/share/lua/5.1/trepl/init.lua:384: in function 'require'
+	generate.lua:3: in main chunk
+	[C]: in function 'dofile'
+	/root/torch/install/lib/luarocks/rocks/trepl/scm-1/bin/th:145: in main chunk
+	[C]: at 0x00406670
+root@da630310f12a:~/dcgan.torch# main.lua
+bash: main.lua: command not found
+root@da630310f12a:~/dcgan.torch# ls
+INSTALL.md  PATENTS    arithmetic.lua  generate.lua  landscapes_776_net_D_cpu.t7  main.lua
+LICENSE.md  README.md  data            images        landscapes_776_net_G_cpu.t7
+root@da630310f12a:~/dcgan.torch# cd ..
+root@da630310f12a:~# ls
+caffe  dcgan.torch  iTorch  run_jupyter.sh  sharedfolder  torch
+root@da630310f12a:~# cd dcgan.torch/
+root@da630310f12a:~/dcgan.torch# ls
+INSTALL.md  PATENTS    arithmetic.lua  generate.lua  landscapes_776_net_D_cpu.t7  main.lua
+LICENSE.md  README.md  data            images        landscapes_776_net_G_cpu.t7
+root@da630310f12a:~/dcgan.torch# git clone https://github.com/robbiebarrat/art-DCGAN.git
+Cloning into 'art-DCGAN'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 139 (delta 0), reused 0 (delta 0), pack-reused 136
+Receiving objects: 100% (139/139), 13.97 MiB | 6.13 MiB/s, done.
+Resolving deltas: 100% (68/68), done.
+Checking connectivity... done.
+root@da630310f12a:~/dcgan.torch# ls
+INSTALL.md  PATENTS    arithmetic.lua  data          images                       landscapes_776_net_G_cpu.t7
+LICENSE.md  README.md  art-DCGAN       generate.lua  landscapes_776_net_D_cpu.t7  main.lua
+root@da630310f12a:~/dcgan.torch# cd ar
+bash: cd: ar: No such file or directory
+root@da630310f12a:~/dcgan.torch# cd art-DCGAN/
+root@da630310f12a:~/dcgan.torch/art-DCGAN# ls
+INSTALL.md  README.md               checkpoints  generate.lua      images    utils
+LICENSE.md  abstractlandscapes.png  data         genre-scraper.py  main.lua
+root@da630310f12a:~/dcgan.torch/art-DCGAN# net=landscapes_776_net_G_cpu.t7 th generate.lua
+/root/torch/install/bin/luajit: /root/torch/install/share/lua/5.1/trepl/init.lua:384: module 'optnet' not found:No LuaRocks module found for optnet
+	no field package.preload['optnet']
+	no file '/root/.luarocks/share/lua/5.1/optnet.lua'
+	no file '/root/.luarocks/share/lua/5.1/optnet/init.lua'
+	no file '/root/torch/install/share/lua/5.1/optnet.lua'
+	no file '/root/torch/install/share/lua/5.1/optnet/init.lua'
+	no file './optnet.lua'
+	no file '/root/torch/install/share/luajit-2.1.0-beta1/optnet.lua'
+	no file '/usr/local/share/lua/5.1/optnet.lua'
+	no file '/usr/local/share/lua/5.1/optnet/init.lua'
+	no file '/root/.luarocks/lib/lua/5.1/optnet.so'
+	no file '/root/torch/install/lib/lua/5.1/optnet.so'
+	no file '/root/torch/install/lib/optnet.so'
+	no file './optnet.so'
+	no file '/usr/local/lib/lua/5.1/optnet.so'
+	no file '/usr/local/lib/lua/5.1/loadall.so'
+stack traceback:
+	[C]: in function 'error'
+	/root/torch/install/share/lua/5.1/trepl/init.lua:384: in function 'require'
+	generate.lua:3: in main chunk
+	[C]: in function 'dofile'
+	/root/torch/install/lib/luarocks/rocks/trepl/scm-1/bin/th:145: in main chunk
+	[C]: at 0x00406670
+root@da630310f12a:~/dcgan.torch/art-DCGAN# sudo apt-get install liblmdb-dev
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+liblmdb-dev is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+root@da630310f12a:~/dcgan.torch/art-DCGAN# luarocks install lmdb.torch
+Installing https://raw.githubusercontent.com/torch/rocks/master/lmdb.torch-scm-1.rockspec...
+Using https://raw.githubusercontent.com/torch/rocks/master/lmdb.torch-scm-1.rockspec... switching to 'build' mode
+Cloning into 'lmdb.torch'...
+remote: Enumerating objects: 10, done.
+remote: Counting objects: 100% (10/10), done.
+remote: Compressing objects: 100% (10/10), done.
+remote: Total 10 (delta 0), reused 5 (delta 0), pack-reused 0
+Receiving objects: 100% (10/10), 6.49 KiB | 0 bytes/s, done.
+Checking connectivity... done.
+cmake -E make_directory build;
+cd build;
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="/root/torch/install/bin/.." -DCMAKE_INSTALL_PREFIX="/root/torch/install/lib/luarocks/rocks/lmdb.torch/scm-1";
+make
+   
+-- The C compiler identification is GNU 4.8.4
+-- The CXX compiler identification is GNU 4.8.4
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Found Torch7 in /root/torch/install
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/luarocks_lmdb.torch-scm-1-446/lmdb.torch/build
+cd build && make install
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /root/torch/install/lib/luarocks/rocks/lmdb.torch/scm-1/lua/lmdb/DB.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/lmdb.torch/scm-1/lua/lmdb/init.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/lmdb.torch/scm-1/lua/lmdb/ffi.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/lmdb.torch/scm-1/lua/lmdb/test.lua
+Updating manifest for /root/torch/install/lib/luarocks/rocks
+lmdb.torch scm-1 is now built and installed in /root/torch/install/ 
+
+root@da630310f12a:~/dcgan.torch/art-DCGAN# luarocks install tds
+
+Installing https://raw.githubusercontent.com/torch/rocks/master/tds-scm-1.rockspec...
+Using https://raw.githubusercontent.com/torch/rocks/master/tds-scm-1.rockspec... switching to 'build' mode
+Cloning into 'tds'...
+remote: Enumerating objects: 32, done.
+remote: Counting objects: 100% (32/32), done.
+remote: Compressing objects: 100% (29/29), done.
+remote: Total 32 (delta 5), reused 10 (delta 1), pack-reused 0
+Receiving objects: 100% (32/32), 23.16 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (5/5), done.
+Checking connectivity... done.
+-- The C compiler identification is GNU 4.8.4
+-- The CXX compiler identification is GNU 4.8.4
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Found Torch7 in /root/torch/install
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/luarocks_tds-scm-1-9543/tds/build.luarocks
+Scanning dependencies of target tds
+[ 20%] Building C object CMakeFiles/tds.dir/tds_utils.c.o
+[ 40%] Building C object CMakeFiles/tds.dir/tds_elem.c.o
+[ 60%] Building C object CMakeFiles/tds.dir/tds_hash.c.o
+[ 80%] Building C object CMakeFiles/tds.dir/tds_vec.c.o
+[100%] Building C object CMakeFiles/tds.dir/tds_atomic_counter.c.o
+Linking C shared module libtds.so
+[100%] Built target tds
+[100%] Built target tds
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /root/torch/install/lib/luarocks/rocks/tds/scm-1/lib/libtds.so
+-- Set runtime path of "/root/torch/install/lib/luarocks/rocks/tds/scm-1/lib/libtds.so" to "$ORIGIN/../lib:/root/torch/install/lib"
+-- Installing: /root/torch/install/lib/luarocks/rocks/tds/scm-1/lua/tds/atomic.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/tds/scm-1/lua/tds/cdefs.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/tds/scm-1/lua/tds/elem.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/tds/scm-1/lua/tds/vec.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/tds/scm-1/lua/tds/hash.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/tds/scm-1/lua/tds/init.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/tds/scm-1/lua/tds/env.lua
+Updating manifest for /root/torch/install/lib/luarocks/rocks
+tds scm-1 is now built and installed in /root/torch/install/ (license: BSD)
+
+root@da630310f12a:~/dcgan.torch/art-DCGAN# 
+root@da630310f12a:~/dcgan.torch/art-DCGAN# net=landscapes_776_net_G_cpu.t7 th generate.lua
+/root/torch/install/bin/luajit: /root/torch/install/share/lua/5.1/trepl/init.lua:384: module 'optnet' not found:No LuaRocks module found for optnet
+	no field package.preload['optnet']
+	no file '/root/.luarocks/share/lua/5.1/optnet.lua'
+	no file '/root/.luarocks/share/lua/5.1/optnet/init.lua'
+	no file '/root/torch/install/share/lua/5.1/optnet.lua'
+	no file '/root/torch/install/share/lua/5.1/optnet/init.lua'
+	no file './optnet.lua'
+	no file '/root/torch/install/share/luajit-2.1.0-beta1/optnet.lua'
+	no file '/usr/local/share/lua/5.1/optnet.lua'
+	no file '/usr/local/share/lua/5.1/optnet/init.lua'
+	no file '/root/.luarocks/lib/lua/5.1/optnet.so'
+	no file '/root/torch/install/lib/lua/5.1/optnet.so'
+	no file '/root/torch/install/lib/optnet.so'
+	no file './optnet.so'
+	no file '/usr/local/lib/lua/5.1/optnet.so'
+	no file '/usr/local/lib/lua/5.1/loadall.so'
+stack traceback:
+	[C]: in function 'error'
+	/root/torch/install/share/lua/5.1/trepl/init.lua:384: in function 'require'
+	generate.lua:3: in main chunk
+	[C]: in function 'dofile'
+	/root/torch/install/lib/luarocks/rocks/trepl/scm-1/bin/th:145: in main chunk
+	[C]: at 0x00406670
+root@da630310f12a:~/dcgan.torch/art-DCGAN# ls
+INSTALL.md  README.md               checkpoints  generate.lua      images    utils
+LICENSE.md  abstractlandscapes.png  data         genre-scraper.py  main.lua
+root@da630310f12a:~/dcgan.torch/art-DCGAN# curl -sk https://raw.githubusercontent.com/torch/ezinstall/master/install-deps | bash -e
+
+Ign http://archive.ubuntu.com trusty InRelease
+Ign http://ppa.launchpad.net trusty InRelease  
+Get:1 http://archive.ubuntu.com trusty-updates InRelease [65.9 kB]
+Hit http://ppa.launchpad.net trusty Release.gpg                                
+Get:2 http://archive.ubuntu.com trusty-security InRelease [65.9 kB]            
+Hit http://ppa.launchpad.net trusty Release
+Hit http://archive.ubuntu.com trusty Release.gpg     
+Hit http://archive.ubuntu.com trusty Release         
+Get:3 http://archive.ubuntu.com trusty-updates/main Sources [524 kB]       
+Hit http://ppa.launchpad.net trusty/main amd64 Packages                        
+Get:4 http://archive.ubuntu.com trusty-updates/restricted Sources [6449 B]     
+Get:5 http://archive.ubuntu.com trusty-updates/universe Sources [278 kB]
+Get:6 http://archive.ubuntu.com trusty-updates/main amd64 Packages [1395 kB]
+Get:7 http://archive.ubuntu.com trusty-updates/restricted amd64 Packages [21.4 kB]
+Get:8 http://archive.ubuntu.com trusty-updates/universe amd64 Packages [643 kB]
+Get:9 http://archive.ubuntu.com trusty-security/main Sources [213 kB]
+Get:10 http://archive.ubuntu.com trusty-security/restricted Sources [5050 B]
+Get:11 http://archive.ubuntu.com trusty-security/universe Sources [114 kB]
+Get:12 http://archive.ubuntu.com trusty-security/main amd64 Packages [976 kB]  
+Get:13 http://archive.ubuntu.com trusty-security/restricted amd64 Packages [18.1 kB]
+Get:14 http://archive.ubuntu.com trusty-security/universe amd64 Packages [348 kB]
+Hit http://archive.ubuntu.com trusty/main Sources                              
+Hit http://archive.ubuntu.com trusty/restricted Sources                        
+Hit http://archive.ubuntu.com trusty/universe Sources                          
+Hit http://archive.ubuntu.com trusty/main amd64 Packages                       
+Hit http://archive.ubuntu.com trusty/restricted amd64 Packages                 
+Hit http://archive.ubuntu.com trusty/universe amd64 Packages                   
+Fetched 4674 kB in 9s (471 kB/s)                                               
+Reading package lists... Done
+W: Size of file /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_trusty-updates_restricted_binary-amd64_Packages.gz is not what the server reported 21381 23467
+W: Size of file /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_trusty-security_restricted_binary-amd64_Packages.gz is not what the server reported 18072 20231
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages will be upgraded:
+  python-software-properties
+1 upgraded, 0 newly installed, 0 to remove and 301 not upgraded.
+Need to get 19.7 kB of archives.
+After this operation, 0 B of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty-updates/universe python-software-properties all 0.92.37.8 [19.7 kB]
+Fetched 19.7 kB in 0s (25.2 kB/s)                     
+(Reading database ... 98192 files and directories currently installed.)
+Preparing to unpack .../python-software-properties_0.92.37.8_all.deb ...
+Unpacking python-software-properties (0.92.37.8) over (0.92.37.7) ...
+Setting up python-software-properties (0.92.37.8) ...
+==> Found Ubuntu version 14.xx
+gpg: keyring `/tmp/tmpwv5o1k_4/secring.gpg' created
+gpg: keyring `/tmp/tmpwv5o1k_4/pubring.gpg' created
+gpg: requesting key 58B80F90 from hkp server keyserver.ubuntu.com
+gpg: /tmp/tmpwv5o1k_4/trustdb.gpg: trustdb created
+gpg: key 58B80F90: public key "Launchpad PPA for Julian Taylor" imported
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+OK
+Ign http://ppa.launchpad.net trusty InRelease 
+Ign http://archive.ubuntu.com trusty InRelease
+Hit http://archive.ubuntu.com trusty-updates InRelease
+Hit http://archive.ubuntu.com trusty-security InRelease
+Hit http://ppa.launchpad.net trusty Release.gpg
+Hit http://archive.ubuntu.com trusty Release.gpg  
+Hit http://ppa.launchpad.net trusty Release                             
+Hit http://archive.ubuntu.com trusty Release                            
+Hit http://archive.ubuntu.com trusty-updates/main Sources                      
+Hit http://archive.ubuntu.com trusty-updates/restricted Sources           
+Hit http://archive.ubuntu.com trusty-updates/universe Sources
+Hit http://ppa.launchpad.net trusty/main amd64 Packages
+Hit http://archive.ubuntu.com trusty-updates/main amd64 Packages
+Hit http://archive.ubuntu.com trusty-updates/restricted amd64 Packages
+Hit http://archive.ubuntu.com trusty-updates/universe amd64 Packages
+Hit http://archive.ubuntu.com trusty-security/main Sources
+Hit http://archive.ubuntu.com trusty-security/restricted Sources
+Hit http://archive.ubuntu.com trusty-security/universe Sources
+Hit http://archive.ubuntu.com trusty-security/main amd64 Packages
+Hit http://archive.ubuntu.com trusty-security/restricted amd64 Packages
+Hit http://archive.ubuntu.com trusty-security/universe amd64 Packages
+Hit http://archive.ubuntu.com trusty/main Sources
+Hit http://archive.ubuntu.com trusty/restricted Sources
+Hit http://archive.ubuntu.com trusty/universe Sources
+Hit http://archive.ubuntu.com trusty/main amd64 Packages
+Hit http://archive.ubuntu.com trusty/restricted amd64 Packages                 
+Hit http://archive.ubuntu.com trusty/universe amd64 Packages                   
+Reading package lists... Done                                                  
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Note, selecting 'libpng12-dev' instead of 'libpng-dev'
+Note, selecting 'libncurses5-dev' instead of 'ncurses-dev'
+build-essential is already the newest version.
+cmake is already the newest version.
+g++ is already the newest version.
+gcc is already the newest version.
+gfortran is already the newest version.
+libjpeg-dev is already the newest version.
+libncurses5-dev is already the newest version.
+libreadline-dev is already the newest version.
+gnuplot is already the newest version.
+gnuplot-x11 is already the newest version.
+libqt4-dev is already the newest version.
+unzip is already the newest version.
+libqt4-core is already the newest version.
+libqt4-gui is already the newest version.
+ipython is already the newest version.
+ipython set to manually installed.
+The following extra packages will be installed:
+  libcurl3 libpng12-0 libzmq3
+Suggested packages:
+  imagemagick-doc autotrace cups-bsd lpr lprng enscript ffmpeg gimp grads
+  hp2xx html2ps libwmf-bin mplayer povray radiance sane-utils transfig
+  ufraw-batch
+The following packages will be upgraded:
+  curl git-core imagemagick libcurl3 libpng12-0 libpng12-dev libzmq3
+  libzmq3-dev
+8 upgraded, 0 newly installed, 0 to remove and 293 not upgraded.
+Need to get 1194 kB of archives.
+After this operation, 10.2 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libpng12-dev amd64 1.2.50-1ubuntu2.14.04.3 [206 kB]
+Get:2 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libpng12-0 amd64 1.2.50-1ubuntu2.14.04.3 [118 kB]
+Get:3 http://archive.ubuntu.com/ubuntu/ trusty-updates/main curl amd64 7.35.0-1ubuntu2.19 [123 kB]
+Get:4 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libcurl3 amd64 7.35.0-1ubuntu2.19 [173 kB]
+Get:5 http://archive.ubuntu.com/ubuntu/ trusty-updates/universe libzmq3-dev amd64 4.0.4+dfsg-2ubuntu0.1 [254 kB]
+Get:6 http://archive.ubuntu.com/ubuntu/ trusty-updates/universe libzmq3 amd64 4.0.4+dfsg-2ubuntu0.1 [130 kB]
+Get:7 http://archive.ubuntu.com/ubuntu/ trusty-updates/main git-core all 1:1.9.1-1ubuntu0.9 [1460 B]
+Get:8 http://archive.ubuntu.com/ubuntu/ trusty-updates/main imagemagick amd64 8:6.7.7.10-6ubuntu3.13 [189 kB]
+Fetched 1194 kB in 4s (286 kB/s)    
+(Reading database ... 98192 files and directories currently installed.)
+Preparing to unpack .../libpng12-dev_1.2.50-1ubuntu2.14.04.3_amd64.deb ...
+Unpacking libpng12-dev (1.2.50-1ubuntu2.14.04.3) over (1.2.50-1ubuntu2.14.04.2) ...
+Preparing to unpack .../libpng12-0_1.2.50-1ubuntu2.14.04.3_amd64.deb ...
+Unpacking libpng12-0:amd64 (1.2.50-1ubuntu2.14.04.3) over (1.2.50-1ubuntu2.14.04.2) ...
+Preparing to unpack .../curl_7.35.0-1ubuntu2.19_amd64.deb ...
+Unpacking curl (7.35.0-1ubuntu2.19) over (7.35.0-1ubuntu2.6) ...
+Preparing to unpack .../libcurl3_7.35.0-1ubuntu2.19_amd64.deb ...
+Unpacking libcurl3:amd64 (7.35.0-1ubuntu2.19) over (7.35.0-1ubuntu2.6) ...
+Preparing to unpack .../libzmq3-dev_4.0.4+dfsg-2ubuntu0.1_amd64.deb ...
+Unpacking libzmq3-dev:amd64 (4.0.4+dfsg-2ubuntu0.1) over (4.0.4+dfsg-2) ...
+Preparing to unpack .../libzmq3_4.0.4+dfsg-2ubuntu0.1_amd64.deb ...
+Unpacking libzmq3:amd64 (4.0.4+dfsg-2ubuntu0.1) over (4.0.4+dfsg-2) ...
+Preparing to unpack .../git-core_1%3a1.9.1-1ubuntu0.9_all.deb ...
+Unpacking git-core (1:1.9.1-1ubuntu0.9) over (1:1.9.1-1ubuntu0.3) ...
+Preparing to unpack .../imagemagick_8%3a6.7.7.10-6ubuntu3.13_amd64.deb ...
+Unpacking imagemagick (8:6.7.7.10-6ubuntu3.13) over (8:6.7.7.10-6ubuntu3.1) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+Processing triggers for mime-support (3.54ubuntu1.1) ...
+Processing triggers for hicolor-icon-theme (0.13-1) ...
+Setting up libpng12-0:amd64 (1.2.50-1ubuntu2.14.04.3) ...
+Setting up libpng12-dev (1.2.50-1ubuntu2.14.04.3) ...
+Setting up libcurl3:amd64 (7.35.0-1ubuntu2.19) ...
+Setting up curl (7.35.0-1ubuntu2.19) ...
+Setting up libzmq3:amd64 (4.0.4+dfsg-2ubuntu0.1) ...
+Setting up libzmq3-dev:amd64 (4.0.4+dfsg-2ubuntu0.1) ...
+Setting up git-core (1:1.9.1-1ubuntu0.9) ...
+Setting up imagemagick (8:6.7.7.10-6ubuntu3.13) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.9) ...
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+liblapack-dev is already the newest version.
+libopenblas-dev is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 293 not upgraded.
+==> Torch7's dependencies have been installed
+root@da630310f12a:~/dcgan.torch/art-DCGAN# 
+root@da630310f12a:~/dcgan.torch/art-DCGAN# net=landscapes_776_net_G_cpu.t7 th generate.lua
+/root/torch/install/bin/luajit: /root/torch/install/share/lua/5.1/trepl/init.lua:384: module 'optnet' not found:No LuaRocks module found for optnet
+	no field package.preload['optnet']
+	no file '/root/.luarocks/share/lua/5.1/optnet.lua'
+	no file '/root/.luarocks/share/lua/5.1/optnet/init.lua'
+	no file '/root/torch/install/share/lua/5.1/optnet.lua'
+	no file '/root/torch/install/share/lua/5.1/optnet/init.lua'
+	no file './optnet.lua'
+	no file '/root/torch/install/share/luajit-2.1.0-beta1/optnet.lua'
+	no file '/usr/local/share/lua/5.1/optnet.lua'
+	no file '/usr/local/share/lua/5.1/optnet/init.lua'
+	no file '/root/.luarocks/lib/lua/5.1/optnet.so'
+	no file '/root/torch/install/lib/lua/5.1/optnet.so'
+	no file '/root/torch/install/lib/optnet.so'
+	no file './optnet.so'
+	no file '/usr/local/lib/lua/5.1/optnet.so'
+	no file '/usr/local/lib/lua/5.1/loadall.so'
+stack traceback:
+	[C]: in function 'error'
+	/root/torch/install/share/lua/5.1/trepl/init.lua:384: in function 'require'
+	generate.lua:3: in main chunk
+	[C]: in function 'dofile'
+	/root/torch/install/lib/luarocks/rocks/trepl/scm-1/bin/th:145: in main chunk
+	[C]: at 0x00406670
+root@da630310f12a:~/dcgan.torch/art-DCGAN# ls
+INSTALL.md  README.md               checkpoints  generate.lua      images    utils
+LICENSE.md  abstractlandscapes.png  data         genre-scraper.py  main.lua
+root@da630310f12a:~/dcgan.torch/art-DCGAN# luarocks install optnet
+Installing https://raw.githubusercontent.com/torch/rocks/master/optnet-scm-1.rockspec...
+Using https://raw.githubusercontent.com/torch/rocks/master/optnet-scm-1.rockspec... switching to 'build' mode
+Cloning into 'optimize-net'...
+remote: Enumerating objects: 18, done.
+remote: Counting objects: 100% (18/18), done.
+remote: Compressing objects: 100% (16/16), done.
+remote: Total 18 (delta 0), reused 9 (delta 0), pack-reused 0
+Receiving objects: 100% (18/18), 1.41 MiB | 345.00 KiB/s, done.
+Checking connectivity... done.
+cmake -E make_directory build;
+cd build;
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="/root/torch/install/bin/.." -DCMAKE_INSTALL_PREFIX="/root/torch/install/lib/luarocks/rocks/optnet/scm-1"; 
+make
+   
+-- The C compiler identification is GNU 4.8.4
+-- The CXX compiler identification is GNU 4.8.4
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Found Torch7 in /root/torch/install
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/luarocks_optnet-scm-1-4852/optimize-net/build
+cd build && make install
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /root/torch/install/lib/luarocks/rocks/optnet/scm-1/lua/optnet/tests.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/optnet/scm-1/lua/optnet/example.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/optnet/scm-1/lua/optnet/graphgen.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/optnet/scm-1/lua/optnet/utils.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/optnet/scm-1/lua/optnet/init.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/optnet/scm-1/lua/optnet/models.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/optnet/scm-1/lua/optnet/env.lua
+-- Installing: /root/torch/install/lib/luarocks/rocks/optnet/scm-1/lua/optnet/countUsedMemory.lua
+Updating manifest for /root/torch/install/lib/luarocks/rocks
+optnet scm-1 is now built and installed in /root/torch/install/ (license: BSD)
+
+root@da630310f12a:~/dcgan.torch/art-DCGAN# net=landscapes_776_net_G_cpu.t7 th generate.lua
+{
+  gpu : 1
+  noisemode : "random"
+  name : "generation1"
+  noisetype : "normal"
+  batchSize : 32
+  net : "landscapes_776_net_G_cpu.t7"
+  imsize : 1
+  nz : 100
+  display : 1
+}
+/root/torch/install/bin/luajit: /root/torch/install/share/lua/5.1/trepl/init.lua:384: module 'cunn' not found:No LuaRocks module found for cunn
+	no field package.preload['cunn']
+	no file '/root/.luarocks/share/lua/5.1/cunn.lua'
+	no file '/root/.luarocks/share/lua/5.1/cunn/init.lua'
+	no file '/root/torch/install/share/lua/5.1/cunn.lua'
+	no file '/root/torch/install/share/lua/5.1/cunn/init.lua'
+	no file './cunn.lua'
+	no file '/root/torch/install/share/luajit-2.1.0-beta1/cunn.lua'
+	no file '/usr/local/share/lua/5.1/cunn.lua'
+	no file '/usr/local/share/lua/5.1/cunn/init.lua'
+	no file '/root/.luarocks/lib/lua/5.1/cunn.so'
+	no file '/root/torch/install/lib/lua/5.1/cunn.so'
+	no file '/root/torch/install/lib/cunn.so'
+	no file './cunn.so'
+	no file '/usr/local/lib/lua/5.1/cunn.so'
+	no file '/usr/local/lib/lua/5.1/loadall.so'
+stack traceback:
+	[C]: in function 'error'
+	/root/torch/install/share/lua/5.1/trepl/init.lua:384: in function 'require'
+	generate.lua:24: in main chunk
+	[C]: in function 'dofile'
+	/root/torch/install/lib/luarocks/rocks/trepl/scm-1/bin/th:145: in main chunk
+	[C]: at 0x00406670
+root@da630310f12a:~/dcgan.torch/art-DCGAN# sudo apt-get install build-essential
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+build-essential is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 293 not upgraded.
+root@da630310f12a:~/dcgan.torch/art-DCGAN# sudo apt-get update
+Ign http://archive.ubuntu.com trusty InRelease
+Ign http://ppa.launchpad.net trusty InRelease
+Hit http://archive.ubuntu.com trusty-updates InRelease
+Hit http://archive.ubuntu.com trusty-security InRelease
+Hit http://ppa.launchpad.net trusty Release.gpg     
+Hit http://archive.ubuntu.com trusty Release.gpg    
+Hit http://archive.ubuntu.com trusty Release                                 
+Hit http://ppa.launchpad.net trusty Release                             
+Hit http://archive.ubuntu.com trusty-updates/main Sources
+Hit http://archive.ubuntu.com trusty-updates/restricted Sources
+Hit http://archive.ubuntu.com trusty-updates/universe Sources
+Hit http://ppa.launchpad.net trusty/main amd64 Packages
+Hit http://archive.ubuntu.com trusty-updates/main amd64 Packages
+Hit http://archive.ubuntu.com trusty-updates/restricted amd64 Packages
+Hit http://archive.ubuntu.com trusty-updates/universe amd64 Packages
+Hit http://archive.ubuntu.com trusty-security/main Sources
+Hit http://archive.ubuntu.com trusty-security/restricted Sources
+Hit http://archive.ubuntu.com trusty-security/universe Sources
+Hit http://archive.ubuntu.com trusty-security/main amd64 Packages
+Hit http://archive.ubuntu.com trusty-security/restricted amd64 Packages
+Hit http://archive.ubuntu.com trusty-security/universe amd64 Packages
+Hit http://archive.ubuntu.com trusty/main Sources
+Hit http://archive.ubuntu.com trusty/restricted Sources
+Hit http://archive.ubuntu.com trusty/universe Sources
+Hit http://archive.ubuntu.com trusty/main amd64 Packages
+Hit http://archive.ubuntu.com trusty/restricted amd64 Packages
+Hit http://archive.ubuntu.com trusty/universe amd64 Packages
+Reading package lists... Done               
+root@da630310f12a:~/dcgan.torch/art-DCGAN# sudo apt-get install linux-generic
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+  amd64-microcode crda grub-common grub-gfxpayload-lists grub-pc grub-pc-bin
+  grub2-common intel-microcode iucode-tool iw libfuse2 libnl-3-200
+  libnl-genl-3-200 linux-firmware linux-headers-3.13.0-162
+  linux-headers-3.13.0-162-generic linux-headers-generic
+  linux-image-3.13.0-162-generic linux-image-extra-3.13.0-162-generic
+  linux-image-generic os-prober wireless-regdb
+Suggested packages:
+  multiboot-doc grub-emu xorriso desktop-base fuse fdutils linux-doc-3.13.0
+  linux-source-3.13.0 linux-tools
+The following NEW packages will be installed:
+  amd64-microcode crda grub-common grub-gfxpayload-lists grub-pc grub-pc-bin
+  grub2-common intel-microcode iucode-tool iw libfuse2 libnl-3-200
+  libnl-genl-3-200 linux-firmware linux-generic linux-headers-3.13.0-162
+  linux-headers-3.13.0-162-generic linux-headers-generic
+  linux-image-3.13.0-162-generic linux-image-extra-3.13.0-162-generic
+  linux-image-generic os-prober wireless-regdb
+0 upgraded, 23 newly installed, 0 to remove and 293 not upgraded.
+Need to get 101 MB of archives.
+After this operation, 422 MB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libfuse2 amd64 2.9.2-4ubuntu4.14.04.1 [87.4 kB]
+Get:2 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libnl-3-200 amd64 3.2.21-1ubuntu4.1 [45.3 kB]
+Get:3 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libnl-genl-3-200 amd64 3.2.21-1ubuntu4.1 [10.2 kB]
+Get:4 http://archive.ubuntu.com/ubuntu/ trusty-security/main linux-image-3.13.0-162-generic amd64 3.13.0-162.212 [15.6 MB]
+Get:5 http://archive.ubuntu.com/ubuntu/ trusty/main wireless-regdb all 2013.02.13-1ubuntu1 [6456 B]
+Get:6 http://archive.ubuntu.com/ubuntu/ trusty/main crda amd64 1.1.2-1ubuntu2 [15.2 kB]
+Get:7 http://archive.ubuntu.com/ubuntu/ trusty-updates/main grub-common amd64 2.02~beta2-9ubuntu1.15 [1678 kB]
+Get:8 http://archive.ubuntu.com/ubuntu/ trusty-updates/main grub2-common amd64 2.02~beta2-9ubuntu1.15 [501 kB]
+Get:9 http://archive.ubuntu.com/ubuntu/ trusty-updates/main grub-pc-bin amd64 2.02~beta2-9ubuntu1.15 [882 kB]
+Get:10 http://archive.ubuntu.com/ubuntu/ trusty-updates/main grub-pc amd64 2.02~beta2-9ubuntu1.15 [173 kB]
+Get:11 http://archive.ubuntu.com/ubuntu/ trusty/main grub-gfxpayload-lists amd64 0.6 [3506 B]
+Get:12 http://archive.ubuntu.com/ubuntu/ trusty-updates/main iucode-tool amd64 1.0.1-1 [28.1 kB]
+Get:13 http://archive.ubuntu.com/ubuntu/ trusty/main iw amd64 3.4-1 [51.7 kB]
+Get:14 http://archive.ubuntu.com/ubuntu/ trusty-updates/main linux-firmware all 1.127.24 [33.9 MB]
+Get:15 http://archive.ubuntu.com/ubuntu/ trusty-security/main linux-image-extra-3.13.0-162-generic amd64 3.13.0-162.212 [37.1 MB]
+Get:16 http://archive.ubuntu.com/ubuntu/ trusty-updates/main intel-microcode amd64 3.20180807a.0ubuntu0.14.04.1 [1275 kB]
+Get:17 http://archive.ubuntu.com/ubuntu/ trusty-updates/main amd64-microcode amd64 3.20180524.1~ubuntu0.14.04.2+really20130710.1ubuntu1 [26.3 kB]
+Get:18 http://archive.ubuntu.com/ubuntu/ trusty-security/main linux-image-generic amd64 3.13.0.162.172 [2326 B]
+Get:19 http://archive.ubuntu.com/ubuntu/ trusty-security/main linux-headers-3.13.0-162 all 3.13.0-162.212 [8902 kB]
+Get:20 http://archive.ubuntu.com/ubuntu/ trusty-security/main linux-headers-3.13.0-162-generic amd64 3.13.0-162.212 [704 kB]
+Get:21 http://archive.ubuntu.com/ubuntu/ trusty-security/main linux-headers-generic amd64 3.13.0.162.172 [2296 B]
+Get:22 http://archive.ubuntu.com/ubuntu/ trusty-security/main linux-generic amd64 3.13.0.162.172 [1786 B]
+Get:23 http://archive.ubuntu.com/ubuntu/ trusty-updates/main os-prober amd64 1.63ubuntu1.1 [18.0 kB]
+Fetched 101 MB in 12s (8384 kB/s)                                              
+
+Preconfiguring packages ...
+Selecting previously unselected package libfuse2:amd64.
+(Reading database ... 98192 files and directories currently installed.)
+Preparing to unpack .../libfuse2_2.9.2-4ubuntu4.14.04.1_amd64.deb ...
+Unpacking libfuse2:amd64 (2.9.2-4ubuntu4.14.04.1) ...
+Selecting previously unselected package libnl-3-200:amd64.
+Preparing to unpack .../libnl-3-200_3.2.21-1ubuntu4.1_amd64.deb ...
+Unpacking libnl-3-200:amd64 (3.2.21-1ubuntu4.1) ...
+Selecting previously unselected package libnl-genl-3-200:amd64.
+Preparing to unpack .../libnl-genl-3-200_3.2.21-1ubuntu4.1_amd64.deb ...
+Unpacking libnl-genl-3-200:amd64 (3.2.21-1ubuntu4.1) ...
+Selecting previously unselected package linux-image-3.13.0-162-generic.
+Preparing to unpack .../linux-image-3.13.0-162-generic_3.13.0-162.212_amd64.deb ...
+Done.
+Unpacking linux-image-3.13.0-162-generic (3.13.0-162.212) ...
+Selecting previously unselected package wireless-regdb.
+Preparing to unpack .../wireless-regdb_2013.02.13-1ubuntu1_all.deb ...
+Unpacking wireless-regdb (2013.02.13-1ubuntu1) ...
+Selecting previously unselected package crda.
+Preparing to unpack .../crda_1.1.2-1ubuntu2_amd64.deb ...
+Unpacking crda (1.1.2-1ubuntu2) ...
+Selecting previously unselected package grub-common.
+Preparing to unpack .../grub-common_2.02~beta2-9ubuntu1.15_amd64.deb ...
+Unpacking grub-common (2.02~beta2-9ubuntu1.15) ...
+Selecting previously unselected package grub2-common.
+Preparing to unpack .../grub2-common_2.02~beta2-9ubuntu1.15_amd64.deb ...
+Unpacking grub2-common (2.02~beta2-9ubuntu1.15) ...
+Selecting previously unselected package grub-pc-bin.
+Preparing to unpack .../grub-pc-bin_2.02~beta2-9ubuntu1.15_amd64.deb ...
+Unpacking grub-pc-bin (2.02~beta2-9ubuntu1.15) ...
+Selecting previously unselected package grub-pc.
+Preparing to unpack .../grub-pc_2.02~beta2-9ubuntu1.15_amd64.deb ...
+Unpacking grub-pc (2.02~beta2-9ubuntu1.15) ...
+Selecting previously unselected package grub-gfxpayload-lists.
+Preparing to unpack .../grub-gfxpayload-lists_0.6_amd64.deb ...
+Unpacking grub-gfxpayload-lists (0.6) ...
+Selecting previously unselected package iucode-tool.
+Preparing to unpack .../iucode-tool_1.0.1-1_amd64.deb ...
+Unpacking iucode-tool (1.0.1-1) ...
+Selecting previously unselected package iw.
+Preparing to unpack .../archives/iw_3.4-1_amd64.deb ...
+Unpacking iw (3.4-1) ...
+Selecting previously unselected package linux-firmware.
+Preparing to unpack .../linux-firmware_1.127.24_all.deb ...
+Unpacking linux-firmware (1.127.24) ...
+Selecting previously unselected package linux-image-extra-3.13.0-162-generic.
+Preparing to unpack .../linux-image-extra-3.13.0-162-generic_3.13.0-162.212_amd64.deb ...
+Unpacking linux-image-extra-3.13.0-162-generic (3.13.0-162.212) ...
+Selecting previously unselected package intel-microcode.
+Preparing to unpack .../intel-microcode_3.20180807a.0ubuntu0.14.04.1_amd64.deb ...
+Unpacking intel-microcode (3.20180807a.0ubuntu0.14.04.1) ...
+Selecting previously unselected package amd64-microcode.
+Preparing to unpack .../amd64-microcode_3.20180524.1~ubuntu0.14.04.2+really20130710.1ubuntu1_amd64.deb ...
+Unpacking amd64-microcode (3.20180524.1~ubuntu0.14.04.2+really20130710.1ubuntu1) ...
+Selecting previously unselected package linux-image-generic.
+Preparing to unpack .../linux-image-generic_3.13.0.162.172_amd64.deb ...
+Unpacking linux-image-generic (3.13.0.162.172) ...
+Selecting previously unselected package linux-headers-3.13.0-162.
+Preparing to unpack .../linux-headers-3.13.0-162_3.13.0-162.212_all.deb ...
+Unpacking linux-headers-3.13.0-162 (3.13.0-162.212) ...
+Selecting previously unselected package linux-headers-3.13.0-162-generic.
+Preparing to unpack .../linux-headers-3.13.0-162-generic_3.13.0-162.212_amd64.deb ...
+Unpacking linux-headers-3.13.0-162-generic (3.13.0-162.212) ...
+Selecting previously unselected package linux-headers-generic.
+Preparing to unpack .../linux-headers-generic_3.13.0.162.172_amd64.deb ...
+Unpacking linux-headers-generic (3.13.0.162.172) ...
+Selecting previously unselected package linux-generic.
+Preparing to unpack .../linux-generic_3.13.0.162.172_amd64.deb ...
+Unpacking linux-generic (3.13.0.162.172) ...
+Selecting previously unselected package os-prober.
+Preparing to unpack .../os-prober_1.63ubuntu1.1_amd64.deb ...
+Unpacking os-prober (1.63ubuntu1.1) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up libfuse2:amd64 (2.9.2-4ubuntu4.14.04.1) ...
+Setting up libnl-3-200:amd64 (3.2.21-1ubuntu4.1) ...
+Setting up libnl-genl-3-200:amd64 (3.2.21-1ubuntu4.1) ...
+Setting up linux-image-3.13.0-162-generic (3.13.0-162.212) ...
+Running depmod.
+update-initramfs: deferring update (hook will be called later)
+Examining /etc/kernel/postinst.d.
+run-parts: executing /etc/kernel/postinst.d/apt-auto-removal 3.13.0-162-generic /boot/vmlinuz-3.13.0-162-generic
+run-parts: executing /etc/kernel/postinst.d/initramfs-tools 3.13.0-162-generic /boot/vmlinuz-3.13.0-162-generic
+update-initramfs: Generating /boot/initrd.img-3.13.0-162-generic
+Setting up wireless-regdb (2013.02.13-1ubuntu1) ...
+Setting up crda (1.1.2-1ubuntu2) ...
+Setting up grub-common (2.02~beta2-9ubuntu1.15) ...
+invoke-rc.d: policy-rc.d denied execution of start.
+Setting up iucode-tool (1.0.1-1) ...
+Setting up iw (3.4-1) ...
+Setting up linux-firmware (1.127.24) ...
+update-initramfs: Generating /boot/initrd.img-3.13.0-162-generic
+Setting up linux-image-extra-3.13.0-162-generic (3.13.0-162.212) ...
+run-parts: executing /etc/kernel/postinst.d/apt-auto-removal 3.13.0-162-generic /boot/vmlinuz-3.13.0-162-generic
+run-parts: executing /etc/kernel/postinst.d/initramfs-tools 3.13.0-162-generic /boot/vmlinuz-3.13.0-162-generic
+update-initramfs: Generating /boot/initrd.img-3.13.0-162-generic
+Setting up intel-microcode (3.20180807a.0ubuntu0.14.04.1) ...
+update-initramfs: deferring update (trigger activated)
+intel-microcode: microcode will be updated at next boot
+Setting up amd64-microcode (3.20180524.1~ubuntu0.14.04.2+really20130710.1ubuntu1) ...
+update-initramfs: deferring update (trigger activated)
+Setting up linux-image-generic (3.13.0.162.172) ...
+Setting up linux-headers-3.13.0-162 (3.13.0-162.212) ...
+Setting up linux-headers-3.13.0-162-generic (3.13.0-162.212) ...
+Setting up linux-headers-generic (3.13.0.162.172) ...
+Setting up linux-generic (3.13.0.162.172) ...
+Setting up os-prober (1.63ubuntu1.1) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up grub2-common (2.02~beta2-9ubuntu1.15) ...
+Setting up grub-pc-bin (2.02~beta2-9ubuntu1.15) ...
+Setting up grub-gfxpayload-lists (0.6) ...
+Setting up grub-pc (2.02~beta2-9ubuntu1.15) ...
+
+Creating config file /etc/default/grub with new version
+grub-probe: error: failed to get canonical path of `overlay'.
+grub-probe: error: failed to get canonical path of `overlay'.
+grub-probe: error: failed to get canonical path of `overlay'.
+Processing triggers for libc-bin (2.19-0ubuntu6.9) ...
+Processing triggers for initramfs-tools (0.103ubuntu4.3) ...
+update-initramfs: Generating /boot/initrd.img-3.13.0-162-generic
+root@da630310f12a:~/dcgan.torch/art-DCGAN# sudo apt-get update
+Ign http://archive.ubuntu.com trusty InRelease
+Ign http://ppa.launchpad.net trusty InRelease
+Hit http://archive.ubuntu.com trusty-updates InRelease
+Hit http://archive.ubuntu.com trusty-security InRelease
+Hit http://ppa.launchpad.net trusty Release.gpg     
+Hit http://archive.ubuntu.com trusty Release.gpg    
+Hit http://archive.ubuntu.com trusty Release                                 
+Hit http://ppa.launchpad.net trusty Release                             
+Hit http://archive.ubuntu.com trusty-updates/main Sources
+Hit http://archive.ubuntu.com trusty-updates/restricted Sources
+Hit http://archive.ubuntu.com trusty-updates/universe Sources
+Hit http://ppa.launchpad.net trusty/main amd64 Packages
+Hit http://archive.ubuntu.com trusty-updates/main amd64 Packages
+Hit http://archive.ubuntu.com trusty-updates/restricted amd64 Packages
+Hit http://archive.ubuntu.com trusty-updates/universe amd64 Packages
+Hit http://archive.ubuntu.com trusty-security/main Sources
+Hit http://archive.ubuntu.com trusty-security/restricted Sources
+Hit http://archive.ubuntu.com trusty-security/universe Sources
+Hit http://archive.ubuntu.com trusty-security/main amd64 Packages
+Hit http://archive.ubuntu.com trusty-security/restricted amd64 Packages
+Hit http://archive.ubuntu.com trusty-security/universe amd64 Packages
+Hit http://archive.ubuntu.com trusty/main Sources
+Hit http://archive.ubuntu.com trusty/restricted Sources
+Hit http://archive.ubuntu.com trusty/universe Sources
+Hit http://archive.ubuntu.com trusty/main amd64 Packages
+Hit http://archive.ubuntu.com trusty/restricted amd64 Packages
+Hit http://archive.ubuntu.com trusty/universe amd64 Packages
+Reading package lists... Done
+root@da630310f12a:~/dcgan.torch/art-DCGAN# sudo apt-get install cuda
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+E: Unable to locate package cuda
+root@da630310f12a:~/dcgan.torch/art-DCGAN# echo "export PATH=/usr/local/cuda/bin/:\$PATH; export LD_LIBRARY_PATH=/usr/local/cuda/lib64/:\$LD_LIBRARY_PATH; " >>~/.bashrc && source ~/.bashrc
+root@da630310f12a:~/dcgan.torch/art-DCGAN# sudo reboot
+shutdown: Unable to shutdown system
+root@da630310f12a:~/dcgan.torch/art-DCGAN# git clone https://github.com/torch/distro.git ~/torch --recursive
+fatal: destination path '/root/torch' already exists and is not an empty directory.
+root@da630310f12a:~/dcgan.torch/art-DCGAN# net=landscapes_776_net_G_cpu.t7 th generate.lua
+{
+  gpu : 1
+  noisemode : "random"
+  name : "generation1"
+  noisetype : "normal"
+  batchSize : 32
+  net : "landscapes_776_net_G_cpu.t7"
+  imsize : 1
+  nz : 100
+  display : 1
+}
+/root/torch/install/bin/luajit: /root/torch/install/share/lua/5.1/trepl/init.lua:384: module 'cunn' not found:No LuaRocks module found for cunn
+	no field package.preload['cunn']
+	no file '/root/.luarocks/share/lua/5.1/cunn.lua'
+	no file '/root/.luarocks/share/lua/5.1/cunn/init.lua'
+	no file '/root/torch/install/share/lua/5.1/cunn.lua'
+	no file '/root/torch/install/share/lua/5.1/cunn/init.lua'
+	no file './cunn.lua'
+	no file '/root/torch/install/share/luajit-2.1.0-beta1/cunn.lua'
+	no file '/usr/local/share/lua/5.1/cunn.lua'
+	no file '/usr/local/share/lua/5.1/cunn/init.lua'
+	no file '/root/.luarocks/lib/lua/5.1/cunn.so'
+	no file '/root/torch/install/lib/lua/5.1/cunn.so'
+	no file '/root/torch/install/lib/cunn.so'
+	no file './cunn.so'
+	no file '/usr/local/lib/lua/5.1/cunn.so'
+	no file '/usr/local/lib/lua/5.1/loadall.so'
+stack traceback:
+	[C]: in function 'error'
+	/root/torch/install/share/lua/5.1/trepl/init.lua:384: in function 'require'
+	generate.lua:24: in main chunk
+	[C]: in function 'dofile'
+	/root/torch/install/lib/luarocks/rocks/trepl/scm-1/bin/th:145: in main chunk
+	[C]: at 0x00406670
+root@da630310f12a:~/dcgan.torch/art-DCGAN# 

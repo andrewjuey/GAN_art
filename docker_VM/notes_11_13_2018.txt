@@ -1,0 +1,47 @@
+big takeaways - dont need jupyter,
+clone both githubs, do setup needed on both,
+need to dld libraries not mentioned either, should be OK though
+
+
+docker cp landscapes_776_net_G_cpu.t7 da630310f12a:/landscapes_776_net_G_cpu.t7
+docker cp landscapes_776_net_G_cpu.t7 da630310f12a:/landscapes_776_net_D_cpu.t7
+
+
+
+http://35.221.171.167/:8888
+
+http://35.221.171.167:8888/
+
+jupyter notebook --ip=35.221.171.167
+
+
+http://17.51.15.281:8888
+
+https://stackoverflow.com/questions/38830610/access-jupyter-notebook-running-on-docker-container
+this is closest thing so far... 
+
+just matter of opening jupyter notebook wtf
+
+actually not sure i need to open jupyter ... should be able to do from terminal?
+-- still would be good to figure out how tf to do that though
+
+
+is that why?? these files just ADD on top of what the soumith paper has? probably why i can't run it etc?
+
+
+
+gpu=1 net=[checkpoint-path] th generate.lua
+
+
+DATA_ROOT=myimages dataset=folder netD=checkpoints/your_discriminator_net.t7 netG=your_driscriminator_net.t7 th main.lua
+
+
+
+net=landscapes_776_net_G_cpu.t7 th generate.lua
+
+gotta manuallly dld this too 
+https://github.com/fmassa/optimize-net
+
+go over a lot of things manually apparently 
+
+
