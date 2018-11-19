@@ -7,4 +7,4 @@ mostly notes/terminal logs for getting fukin GCP & docker up and running properl
 
 final docker image for GPU with torch, CUDA, cudN etc saved at: andrewjuey/dcgan-data-art 
 
-![](nudes_generation.png)
+![example of what DCGAN generates when trained on nude portraits](nudes_generation.png)
