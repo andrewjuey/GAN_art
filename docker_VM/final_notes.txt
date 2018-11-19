@@ -1,0 +1,238 @@
+FINAL NOTES 
+got docker gpu image running properly
+
+KEY THING WAS THAT GPU DOCKER FILE WAS BROKEN, NEEDED NEW ONE AND FIXED
+
+ran model
+saved docker image, etc. 
+
+https://rominirani.com/docker-tutorial-series-a7e6ff90a023
+
+https://hub.docker.com/r/andrewjuey/dcgan-data-art/
+https://hub.docker.com/r/waleedka/modern-deep-learning/
+
+
+
+
+KEY THING IS HOW TO BUILD GPU DOCKER PROPERLY ... NEEDED NEW FILE 
+EDIT FIX 
+
+GOT GPU UP AND RUNNING ... FINALLY 
+
+- the build time for GPU is considerably longer lol 
+
+
+GPU - docker attach b67e61d4bfde
+CPU - docker attach 10d6271e6b53
+
+
+- OK so after building the gpu ... 
+docker build -t floydhub/dl-docker:gpu -f Dockerfile.gpu .
+
+- need to launch it ... 
+nvidia-docker run -it -p 8888:8888 -p 6006:6006 -v /sharedfolder:/root/sharedfolder floydhub/dl-docker:gpu bash
+
+
+$ docker run --runtime=nvidia --rm nvidia/cuda:9.0-base nvidia-smi
+
+
+
+- resetting vm
+gcloud compute instances reset dockertest-blank
+- reconnect 
+gcloud compute --project "data-art-gans" ssh --zone "asia-east1-a" "dockertest-blank"
+
+
+go thru these again for GPU
+https://github.com/floydhub/dl-setup#nvidia-drivers
+
+
+- issue is setting up nvidia driver 
+https://github.com/NVIDIA/nvidia-docker
+
+
+
+
+general notes for launching
+
+- launch vm
+- launch docker 
+docker run -it -p 8888:8888 -p 6006:6006 -v /home/andrewju/sharedfolder:/root/sharedfolder floydhub/dl-docker:cpu bash
+
+- copy files over to docker
+
+docker cp landscapes_776_net_G_cpu.t7 10d6271e6b53:/landscapes_776_net_G_cpu.t7
+docker cp landscapes_776_net_D_cpu.t7 10d6271e6b53:/landscapes_776_net_D_cpu.t7
+
+-----
+cp /landscapes_776_net_D_cpu.t7 /~
+cp /landscapes_776_net_G_cpu.t7 /~
+
+sudo mv landscapes_776_net_G_cpu.t7 ~/myimages/images
+sudo mv landscapes_776_net_D_cpu.t7 ~/
+
+-----
+
+- clone github repos as necessary
+git clone https://github.com/soumith/dcgan.torch.git
+git clone https://github.com/robbiebarrat/art-DCGAN.git
+
+
+
+---- have to do all the setup too bc docker is blank
+https://github.com/soumith/dcgan.torch/blob/master/INSTALL.md
+
+
+sudo apt-get install build-essential
+sudo apt-get update
+sudo apt-get install linux-generic
+curl -sk https://raw.githubusercontent.com/torch/ezinstall/master/install-deps | bash -e
+
+luarocks install lmdb.torch
+luarocks install tds
+
+
+
+////////////
+don't think i need to do cuda etc b/c only using CPU rn ... 
+downloading cuda remotely ... 
+
+sudo apt-get install cuda
+echo "export PATH=/usr/local/cuda/bin/:\$PATH; export LD_LIBRARY_PATH=/usr/local/cuda/lib64/:\$LD_LIBRARY_PATH; " >>~/.bashrc && source ~/.bashrc
+////////////
+
+need to also download the image training set too --> should be the .t7 files though ... 
+
+
+.... and then run somehow
+
+gpu=0 net=[checkpoint-path] th generate.lua
+
+DATA_ROOT=myimages dataset=folder netD=checkpoints/landscapes_776_net_G_cpu.t7 netG=landscapes_776_net_G_cpu.t7 th main.lua
+
+
+still need to install CUNN even tho not gpu
+
+https://github.com/torch/distro/issues/138
+
+luarocks install cunn -- by itself fails ... 
+
+
+
+in this order ... 
+
+luarocks install torch
+luarocks install nn
+luarocks install cutorch -- failing b/c i need to install cuda i guess ... 
+luarocks install cunn
+
+
+
+
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \sudo apt-key add -
+
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+
+
+https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions
+https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1404&target_type=deblocal
+https://medium.com/@jayden.chua/quick-install-cuda-on-google-cloud-compute-6c85447f86a1
+http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/
+
+
+GOT CUDA INSTALLED 
+# download
+curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_10.0.130-1_amd64.deb
+
+# install process 
+sudo dpkg -i cuda-repo-ubuntu1404-10-0-local-10.0.130-410.48_1.0-1_amd64.deb
+
+
+
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+
+#### so now have GPU up and running 
+- need to clone all the gits back in there
+- move the files too 
+- 
+
+
+gcloud compute scp [LOCAL_FILE_PATH] [INSTANCE_NAME]:~/
+
+
+
+net=nudeportraits_4277_net_G.t7 th generate.lua
+
+net=/root/art-DCGAN/myimages/imagesnudeportraits_4277_net_G.t7 th generate.lua
+
+- no cudNN ... 
+-- dockerfile says it has everything but not rly sure it does... wtf
+gpu=1 net=nudeportraits_4277_net_G.t7 th generate.lua
+
+
+
+### this command says there IS this though ... 
+cat /usr/include/cudnn.h | grep CUDNN_MAJOR -A 2
+cudnn.h file is different from wahtever else i need ... 
+really do need to make docker file out of this then lol 
+
+
+### This is the fix for cudnn ... 
+export CUDNN_ROOT="/usr/local/cuda-8.0/lib64/libcudnn.so.4" 
+# you can maybe add this line into ~/.bashrc for future use
+luarocks install cudnn
+
+## https://github.com/soumith/cudnn.torch/issues/257
+
+
+https://github.com/jcjohnson/cnn-benchmarks/issues/11
+### need to add flag -output_t7 to give path where i want output file written ... 
+
+
+gpu=1 net=nudeportraits_4277_net_G.t7 output_t7=~/art-DCGAN th generate.lua 
+
+
+
+
+
+potential issues ... 
+- file pointed at wrong place? 
+- or i have wrong version of cudnn or something installed?
+
+-- pretty sure this is the issue somehow, not sure where/when tho ... 
+- fixing the load file somehow?
+https://github.com/cmusatyalab/openface/issues/42
+
+
+wtf is it  --- just needed the file in same folder and not fucking myimages crap ... 
+
+
+sudo docker cp b67e61d4bfde:/root/art-DCGAN/generation1.png .
+ 
+
+gcloud compute scp dockertest-blank:~/generation1.png ~/Desktop
+ <instance-name>:~/<file-name> ~/Documents/
+
+
+batchSize=36 net=nudeportraits_4277_net_G.t7 th generate.lua
+
+
+
+##### 
+ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
+
+what does this error even mean ... 
+##### 
+
+
+in screen recording, need to be careful about mouse / little things ... 
+
+
+
+--- made the docker commit & push
+but now realizing i probably should have done data volume for the data itself too ... 
+-- but a lot of things i can do with this too now
+
+

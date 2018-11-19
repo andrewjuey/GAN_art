@@ -1,0 +1,24 @@
+IMPORTANT LINKS FOR BUGS / ERRORS ALONG WAY
+
+GETTING RIGHT GPU DOCKER FILE !!!!
+https://github.com/floydhub/dl-docker/issues/84
+https://github.com/floydhub/dl-docker/issues/86
+
+
+getting cudNN / CUDA working
+https://github.com/soumith/cudnn.torch/issues/383
+https://github.com/torch/cutorch/issues/425
+https://github.com/torch/distro/issues/138
+https://github.com/tensorflow/tensorflow/issues/16214
+https://askubuntu.com/questions/799184/how-can-i-install-cuda-on-ubuntu-16-04
+https://stackoverflow.com/questions/31326015/how-to-verify-cudnn-installation
+https://devtalk.nvidia.com/default/topic/1030724/gpu-accelerated-libraries/cudnn-7-1-how-to-verify-installation-correctness/
+https://devtalk.nvidia.com/default/topic/1022658/gpu-accelerated-libraries/install-cudnn-from-deb/
+
+https://github.com/soumith/cudnn.torch/issues/257
+
+
+
+getting nvidia-docker working
+https://github.com/NVIDIA/nvidia-docker
+
